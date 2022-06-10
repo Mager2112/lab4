@@ -1,0 +1,91 @@
+name: lab4
+
+on: [push]
+
+jobs:
+  
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+  
+    steps:    
+    
+    - name: checkout
+      uses: actions/checkout@v1
+    
+    
+    - name: set_compiler
+      run: sudo apt install clang-11 g++ cmake
+    
+    
+    - name: formatter_lib_build
+      run: |
+        cd formatter_lib
+        cmake . -DCMAKE_CXX_COMPILER=clang++
+        cmake -H. -B_build
+        cmake --build _build
+        cd ..
+   
+    - name: formatter_ex_lib_build
+      run: |
+        cd formatter_ex_lib
+        cmake . -DCMAKE_CXX_COMPILER=clang++
+        cmake -H. -B_build
+        cmake --build _build
+        cd ..
+    - name: hello_world_build
+      run: |
+        cd hello_world_application
+        cmake . -DCMAKE_CXX_COMPILER=clang++
+        cmake -H. -B_build
+        cmake --build _build
+        cd ..
+    - name: solver_build
+      run: |
+        cd solver_application
+        cmake . -DCMAKE_CXX_COMPILER=clang++
+        cmake -H. -B_build
+        cmake --build _build
+        cd ..
+        
+  build2:
+    runs-on: windows-latest
+    timeout-minutes: 10
+  
+    steps:    
+    
+    - name: checkout
+      uses: actions/checkout@v1
+       
+    
+    - name: formatter_lib_build
+      run: |
+        cd formatter_lib
+        mkdir _build && cd _build
+        cmake ..
+        make ..
+        cd ..
+        
+    - name: forrmater_ex_lib_build
+      run: |
+        cd formatter_ex_lib
+        mkdir _build && cd _build
+        cmake ..
+        make ..
+        cd ..
+          
+    - name: hello_world_build
+      run: |
+        cd hello_world_application
+        mkdir _build && cd _build
+        cmake ..
+        make ..
+        cd ..
+          
+    - name: solver_lib_build
+      run: |
+        cd solver_lib
+        mkdir _build && cd _build
+        cmake ..
+        make ..
+        cd ..
